@@ -1,30 +1,54 @@
 pipeline {
     agent any
 
-    stages {
-        stage('gitjobtest') {
+    tools {
+        // These names must match the ones configured in Jenkins > Global Tool Configuration
+        jdk 'jdk-21'
+        maven 'Maven 3.9.6'
+    }
+stages {
+        stage('Clone Code') {
             steps {
-                echo 'Cloning..'
-              git branch: 'main', url: 'https://github.com/Saharshan-123/java.git'
+                echo 'Cloning repository...'
+                git branch: 'main', url: 'https://github.com/Saharshan-123/java.git'
             }
         }
-       stage('buildjobtest') {
+        stage('Build') {
             steps {
-                echo 'building..'
+                echo 'Compiling source...'
                 sh 'mvn compile'
             }
         }
-        stage('testjobtest') {
+
+        stage('Run Tests') {
             steps {
-                echo 'testing..'
+                echo 'Running unit tests...'
                 sh 'mvn test'
             }
         }
-        stage('deployjob') {
+
+        stage('Verify & Package') {
             steps {
-                echo 'deploying..'
-                sh 'mvn install'
+                echo 'Verifying and packaging application...'
+                sh 'mvn verify'
             }
+        }
+
+         stage('Deploy') {
+            steps {
+                 echo 'Deploying...'
+                sh 'mvn deploy'
+          }
+         }
+
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed.'
         }
     }
 }
+}    
