@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // These names must match the ones configured in Jenkins > Global Tool Configuration
-        jdk 'jdk-21'
+        jdk 'jdk-21.0.7'
         maven 'Maven 3.9.6'
     }
 stages {
@@ -40,15 +40,5 @@ stages {
                 sh 'mvn deploy'
           }
          }
-
-
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed.'
-        }
-    }
 }
 }    
