@@ -1,11 +1,5 @@
 pipeline {
     agent any
-
-    tools {
-        // These names must match the ones configured in Jenkins > Global Tool Configuration
-        jdk 'jdk-21.0.7'
-        maven 'Maven 3.9.6'
-    }
 stages {
         stage('Clone Code') {
             steps {
@@ -26,19 +20,11 @@ stages {
                 sh 'mvn test'
             }
         }
-
         stage('Verify & Package') {
             steps {
                 echo 'Verifying and packaging application...'
                 sh 'mvn verify'
             }
         }
-
-         stage('Deploy') {
-            steps {
-                 echo 'Deploying...'
-                sh 'mvn deploy'
-          }
-         }
 }
-}    
+}  
